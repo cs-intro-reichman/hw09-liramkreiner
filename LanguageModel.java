@@ -67,21 +67,21 @@ public class LanguageModel {
     // Computes and sets the probabilities (p and cp fields) of all the
 	// characters in the given list. */
 	public void calculateProbabilities(List probs) {				
-		int countCharInList = 0;
+		int countch = 0;
         Node current = probs.getFirstNode();
         while (current != null)
         {
-            countCharInList += current.cp.count;
+            countch += current.cp.count;
             current = current.next;
         }
 
-        double currentCP = 0;
+        double currentcp = 0;
         current = probs.getFirstNode();
         while (current != null)
         {
-            current.cp.p = (double) current.cp.count / countCharInList;
-            currentCP += (double) current.cp.count / countCharInList;;
-            current.cp.cp = currentCP;
+            current.cp.p = (double) current.cp.count / countch;
+            currentcp += (double) current.cp.count / countch;;
+            current.cp.cp = currentcp;
             current = current.next;
         }
 	}
@@ -108,7 +108,7 @@ public class LanguageModel {
 	public String generate(String initialText, int textLength) {
 		String window = "";
         String text = initialText;
-        char c;
+        char chr;
 
         if (windowLength > initialText.length() || initialText.length() >= textLength)
         {
@@ -121,9 +121,9 @@ public class LanguageModel {
             {
                 if (CharDataMap.containsKey(window))
                 {
-                    c = getRandomChar(CharDataMap.get(window));
-                    text += c;
-                    window = window.substring(1) + c;
+                    chr = getRandomChar(CharDataMap.get(window));
+                    text += chr;
+                    window = window.substring(1) + chr;
                 }
                 else
                 {
@@ -137,7 +137,8 @@ public class LanguageModel {
     /** Returns a string representing the map of this language model. */
 	public String toString() {
 		StringBuilder str = new StringBuilder();
-		for (String key : CharDataMap.keySet()) {
+		for (String key : CharDataMap.keySet())
+        {
 			List keyProbs = CharDataMap.get(key);
 			str.append(key + " : " + keyProbs + "\n");
 		}
